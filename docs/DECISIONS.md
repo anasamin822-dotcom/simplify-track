@@ -163,6 +163,8 @@
    returns 5xx with no JSON body, and the raw fallback "API <status>: null"
    is not words a user can act on. When an ApiError carries no usable body,
    the message is built from the status class instead: 5xx says the server
-   is having trouble and nothing on the phone changed, 404 points at the
-   URL setting, 429 says the server asked us to slow down. A real server
-   body still shows as-is, bounded (entry 17).
+   is having trouble, 404 points at the URL setting, 429 says the server
+   asked us to slow down. It deliberately claims nothing about data state:
+   incremental sync keeps pages committed before a failure, so "nothing
+   changed" would be false there. A real server body still shows as-is,
+   bounded (entry 17).

@@ -11,10 +11,11 @@
   checkpoint, search, detail, server killed mid-sync, aeroplane mode +
   restart, back online, tests passing.
 - **Android APK: built via EAS Build; on-device validation partly done.**
-  The earlier build has been installed on a real Android phone and used
-  with mock data. The recovered source has not yet been rebuilt and
-  checked on that phone. App-kill-during-download proof remains missing;
-  automated replacement tests do not substitute for that device test.
+  The APK built from this recovered source has been installed over the
+  previous build on a real Android phone - launch verified, saved history
+  and October totals visible while the server was unreachable.
+  App-kill-during-download proof remains missing; automated replacement
+  tests do not substitute for that device test.
 - **Stretch goals:** sync resilience (kill-safe, 410, racing syncs) is
   implemented and tested. The measured-performance stretch (mid-range Android
   scroll numbers) and the TalkBack stretch are not done; scroll behaviour is

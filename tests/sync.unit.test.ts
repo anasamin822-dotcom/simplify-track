@@ -333,8 +333,8 @@ test('an HTTP 530 with an empty edge body reads as guidance, not "API 530: null"
   const r = await engine.sync();
   assert.equal(r.ok, false);
   assert.match(r.error ?? '', /having trouble right now \(HTTP 530\)/);
-  assert.match(r.error ?? '', /Nothing on this phone was changed/);
   assert.doesNotMatch(r.error ?? '', /API 530|null/);
+  assert.doesNotMatch(r.error ?? '', /Nothing on this phone was changed/, 'no data-state claim the code does not guarantee');
   assert.equal(await store.getMeta(META.lastSyncError), r.error, 'same guidance persisted for the UI');
 });
 

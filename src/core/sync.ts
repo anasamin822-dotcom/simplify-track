@@ -427,14 +427,16 @@ function hasUsableBody(body: unknown): boolean {
   return true;
 }
 
-// Status-class guidance for a body-less HTTP error. Every variant names what
-// happened, that nothing on the phone changed, and what to do next.
+// Status-class guidance for a body-less HTTP error. It names what happened
+// and what to do next - and claims nothing about data state. Incremental
+// sync keeps pages committed before the failure, so "nothing changed"
+// would be false there; only staged replaces are all-or-nothing.
 function friendlyHttpStatus(status: number, baseUrl: string): string {
   if (status >= 500 && status < 600) {
-    return `The server at ${baseUrl} is having trouble right now (HTTP ${status}). Nothing on this phone was changed - try again in a little while.`;
+    return `The server at ${baseUrl} is having trouble right now (HTTP ${status}). Try again in a little while.`;
   }
   if (status === 429) {
-    return `The server at ${baseUrl} asked us to slow down (HTTP 429). Nothing on this phone was changed - try again shortly.`;
+    return `The server at ${baseUrl} asked us to slow down (HTTP 429). Try again shortly.`;
   }
   if (status === 404) {
     return `No Track API answered at ${baseUrl} (HTTP 404). Check the URL in Server settings.`;
@@ -442,7 +444,7 @@ function friendlyHttpStatus(status: number, baseUrl: string): string {
   if (status >= 400 && status < 500) {
     return `The server at ${baseUrl} refused the request (HTTP ${status}). Check the URL in Server settings.`;
   }
-  return `Unexpected response from the server at ${baseUrl} (HTTP ${status}). Nothing on this phone was changed.`;
+  return `Unexpected response from the server at ${baseUrl} (HTTP ${status}). Try again later.`;
 }
 
 // Two URLs are the same backend when they differ only by trailing slashes or
