@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "track-app",
+    "slug": "track-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "com.anasamin.trackapp"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-sqlite",
+      "./plugins/withNoBackup.js",
+      "expo-font"
+    ],
+    "owner": "anasamin822",
+    "extra": {
+      "eas": {
+        "projectId": "d6fde98f-3c2e-41f4-90f3-61733838605e"
+      }
+    }
+  }
+}
