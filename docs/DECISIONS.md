@@ -157,3 +157,12 @@
    gains only expo-font/expo-linear-gradient, both stock Expo modules. Every
    screen was verified as rendered pixels (headless Chrome screenshots at
    390x844 and 1440x900 against the real mock), not by reading the styles.
+
+20. **An edge failure with no body gets status-class guidance, never "API
+   530: null".** A dead reverse proxy (expired tunnel, gateway 502) often
+   returns 5xx with no JSON body, and the raw fallback "API <status>: null"
+   is not words a user can act on. When an ApiError carries no usable body,
+   the message is built from the status class instead: 5xx says the server
+   is having trouble and nothing on the phone changed, 404 points at the
+   URL setting, 429 says the server asked us to slow down. A real server
+   body still shows as-is, bounded (entry 17).

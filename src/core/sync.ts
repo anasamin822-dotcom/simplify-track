@@ -389,7 +389,14 @@ export class SyncEngine {
   // starts "fetch failed: ...", so match the transport signatures, not one
   // class. Verified against expo/src/winter/fetch/FetchErrors.ts.
   private describeError(e: unknown): string {
-    if (e instanceof ApiError) return e.message;
+    if (e instanceof ApiError) {
+      // An edge or proxy failure (a dead tunnel's 530, a gateway 502) often
+      // carries NO body, and "API 530: null" is not words a user can act on.
+      // An empty body maps to guidance by status class; a real server body
+      // still shows as-is, bounded inside ApiError itself.
+      if (!hasUsableBody(e.body)) return friendlyHttpStatus(e.status, this.baseUrl);
+      return e.message;
+    }
     const msg = e instanceof Error ? e.message : String(e);
     if (e instanceof TypeError || /^fetch failed/i.test(msg) || /network request failed/i.test(msg)) {
       return `Can't reach the server at ${this.baseUrl}. Check the URL in Server settings and the network connection.`;
@@ -409,6 +416,33 @@ export class SyncEngine {
       return { ok: false, phase: 'none', total: await this.store.count(), error: msg };
     }
   }
+}
+
+// An error body worth showing: present and non-empty. null (edge returned no
+// JSON), "" and {} carry no words of their own.
+function hasUsableBody(body: unknown): boolean {
+  if (body == null) return false;
+  if (typeof body === 'string') return body.trim().length > 0;
+  if (typeof body === 'object') return Object.keys(body as Record<string, unknown>).length > 0;
+  return true;
+}
+
+// Status-class guidance for a body-less HTTP error. Every variant names what
+// happened, that nothing on the phone changed, and what to do next.
+function friendlyHttpStatus(status: number, baseUrl: string): string {
+  if (status >= 500 && status < 600) {
+    return `The server at ${baseUrl} is having trouble right now (HTTP ${status}). Nothing on this phone was changed - try again in a little while.`;
+  }
+  if (status === 429) {
+    return `The server at ${baseUrl} asked us to slow down (HTTP 429). Nothing on this phone was changed - try again shortly.`;
+  }
+  if (status === 404) {
+    return `No Track API answered at ${baseUrl} (HTTP 404). Check the URL in Server settings.`;
+  }
+  if (status >= 400 && status < 500) {
+    return `The server at ${baseUrl} refused the request (HTTP ${status}). Check the URL in Server settings.`;
+  }
+  return `Unexpected response from the server at ${baseUrl} (HTTP ${status}). Nothing on this phone was changed.`;
 }
 
 // Two URLs are the same backend when they differ only by trailing slashes or

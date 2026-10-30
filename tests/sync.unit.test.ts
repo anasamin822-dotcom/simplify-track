@@ -320,6 +320,52 @@ test('Expo native FetchError (not a TypeError) also maps to guidance', async () 
   assert.doesNotMatch(r.error ?? '', /UnknownHostException/);
 });
 
+test('an HTTP 530 with an empty edge body reads as guidance, not "API 530: null"', async () => {
+  // A dead reverse proxy (e.g. an expired tunnel edge) returns 5xx with no
+  // JSON body at all. The user must get actionable words, and no raw null.
+  const store = new MemoryStore();
+  const engine = new SyncEngine(store, {
+    baseUrl: 'https://dead-tunnel.example.com',
+    maxAttempts: 1,
+    fetchImpl: (async () => new Response('', { status: 530 })) as typeof fetch,
+    sleep: () => Promise.resolve(),
+  });
+  const r = await engine.sync();
+  assert.equal(r.ok, false);
+  assert.match(r.error ?? '', /having trouble right now \(HTTP 530\)/);
+  assert.match(r.error ?? '', /Nothing on this phone was changed/);
+  assert.doesNotMatch(r.error ?? '', /API 530|null/);
+  assert.equal(await store.getMeta(META.lastSyncError), r.error, 'same guidance persisted for the UI');
+});
+
+test('an HTTP 404 with no body points at the URL setting', async () => {
+  const store = new MemoryStore();
+  const engine = new SyncEngine(store, {
+    baseUrl: 'https://wrong-path.example.com',
+    maxAttempts: 1,
+    fetchImpl: (async () => new Response('not here', { status: 404 })) as typeof fetch,
+    sleep: () => Promise.resolve(),
+  });
+  const r = await engine.sync();
+  assert.equal(r.ok, false);
+  assert.match(r.error ?? '', /\(HTTP 404\)/);
+  assert.match(r.error ?? '', /Check the URL in Server settings/);
+  assert.doesNotMatch(r.error ?? '', /API 404|null/);
+});
+
+test('a real server error body is still shown, bounded, not replaced by guidance', async () => {
+  const store = new MemoryStore();
+  const engine = new SyncEngine(store, {
+    baseUrl: 'https://honest-server.example.com',
+    maxAttempts: 1,
+    fetchImpl: (async () => new Response(JSON.stringify({ error: 'database on fire' }), { status: 500, headers: { 'Content-Type': 'application/json' } })) as typeof fetch,
+    sleep: () => Promise.resolve(),
+  });
+  const r = await engine.sync();
+  assert.equal(r.ok, false);
+  assert.match(r.error ?? '', /database on fire/);
+});
+
 test('a cosmetic URL edit (trailing slash) does NOT wipe local data', async () => {
   const store = new MemoryStore();
   const mk = (baseUrl: string) => new SyncEngine(store, {
