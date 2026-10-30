@@ -5,9 +5,14 @@
   reported feedback with real chat screenshots is collected, each
   confirmed as their own use. The LinkedIn/Instagram/YouTube follows are
   not done. No substitute is claimed for what is missing.
-- **Task 1 (real-app teardown): not done.** It requires using the production
-  app's Track screen with a connected data source, which I haven't done.
-  I'd rather submit without it than invent observations.
+- **Task 1 (real-app teardown): partially done, honestly scoped.** Track
+  was explored in Preview Mode on October 30 (no data source connected):
+  entry, the Snapshot and Income tabs, filters and the offline banner
+  behaviour are reviewed in the submitted teardown with real screenshots.
+  The screens explored show no transaction history, search or detail, and
+  no data source was connected, so the brief's connected-data checklist
+  (scroll real history, search, open a transaction, pull to refresh)
+  remains unexercised. I'd rather state that than invent observations.
 - **Walkthrough recording: a labeled web-preview recording exists.** It is
   marked in the recording itself as a mobile-size web preview against the
   local mock, and covers first launch, full history, October totals against
