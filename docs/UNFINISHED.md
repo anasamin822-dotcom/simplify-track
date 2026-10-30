@@ -1,10 +1,10 @@
 # Unfinished / honest gaps
 
-- **Task 0 (mandatory in the brief): in progress, stated as such in the
-  one-pager.** The production app is installed and onboarding is started.
-  Two friends' reported feedback with real screenshots is collected; a
-  third friend's feedback is still pending, and the social follows are not
-  done. No substitute is claimed for what is missing.
+- **Task 0 (mandatory in the brief): one-pager completed October 30.** The
+  production app was installed and explored in Preview Mode; three friends'
+  reported feedback with real chat screenshots is collected, each
+  confirmed as their own use. The LinkedIn/Instagram/YouTube follows are
+  not done. No substitute is claimed for what is missing.
 - **Task 1 (real-app teardown): not done.** It requires using the production
   app's Track screen with a connected data source, which I haven't done.
   I'd rather submit without it than invent observations.
@@ -12,13 +12,16 @@
   marked in the recording itself as a mobile-size web preview against the
   local mock, and covers first launch, full history, October totals against
   the checkpoint, search, transaction detail, the server stopped mid-sync,
-  resume after a reload, and tests passing. The real-phone legs - killing
-  the app mid-download and an aeroplane-mode restart - are still pending,
-  and the web preview does not prove those native behaviours.
+  resume after a reload, and tests passing. On a real phone, the
+  aeroplane-mode leg is verified (October 30): saved history and October
+  totals stayed visible with the network off and after a Force Stop and
+  reopen. Kill-during-download is still proven only in the labeled web
+  preview, not on the device.
 - **Android APK: built via EAS Build; on-device validation partly done.**
   The APK built from this recovered source has been installed over the
   previous build on a real Android phone - launch verified, saved history
-  and October totals visible while the server was unreachable.
+  and October totals visible while the server was unreachable, and the
+  same after an aeroplane-mode Force Stop and reopen (October 30).
   App-kill-during-download proof remains missing; automated replacement
   tests do not substitute for that device test.
 - **Stretch goals:** sync resilience (kill-safe, 410, racing syncs) is
