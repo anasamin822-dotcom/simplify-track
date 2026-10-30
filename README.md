@@ -39,7 +39,7 @@ injected 500/429/503s) and prints every month's spend and income next to
 ## Test
 
 ```bash
-npm test          # 46 tests: units + integration + hostile-server
+npm test          # 50 tests: units + integration + hostile-server
 npm run typecheck # app and tests, both strict
 ```
 
