@@ -1,15 +1,20 @@
 # Unfinished / honest gaps
 
-- **Task 0 (mandatory in the brief): not done.** I have not downloaded the
-  production app, referred 3 friends, collected their feedback, or followed
-  Simplify Money on socials. No substitute is claimed here.
+- **Task 0 (mandatory in the brief): in progress, stated as such in the
+  one-pager.** The production app is installed and onboarding is started.
+  Two friends' reported feedback with real screenshots is collected; a
+  third friend's feedback is still pending, and the social follows are not
+  done. No substitute is claimed for what is missing.
 - **Task 1 (real-app teardown): not done.** It requires using the production
   app's Track screen with a connected data source, which I haven't done.
   I'd rather submit without it than invent observations.
-- **Walkthrough recording: not yet recorded.** Needs a real phone (mine) per
-  the brief's script: first launch, full history, a month checked against the
-  checkpoint, search, detail, server killed mid-sync, aeroplane mode +
-  restart, back online, tests passing.
+- **Walkthrough recording: a labeled web-preview recording exists.** It is
+  marked in the recording itself as a mobile-size web preview against the
+  local mock, and covers first launch, full history, October totals against
+  the checkpoint, search, transaction detail, the server stopped mid-sync,
+  resume after a reload, and tests passing. The real-phone legs - killing
+  the app mid-download and an aeroplane-mode restart - are still pending,
+  and the web preview does not prove those native behaviours.
 - **Android APK: built via EAS Build; on-device validation partly done.**
   The APK built from this recovered source has been installed over the
   previous build on a real Android phone - launch verified, saved history
